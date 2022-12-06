@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Справочник заболеваний</string>
+    <string name="item_home">Список заболеваний</string>
+    <string name="item_favorites">Избранное</string>
+    <string name="item_categories">Разделы</string>
+    <string name="item_settings">Настройки</string>
+    <string name="item_about">О программе</string>
+    <string name="open">Открыть</string>
+    <string name="close">Закрыть</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="disease">заболевание</string>
+    <string name="disease_type">тип заболевания</string>
+    <string name="disease_types">Типы заболевания</string>
+    <string name="brain">Головной мозг</string>
+    <string name="types">Разделы</string>
+    <string name="title_text_view">Справочник заболеваний</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="info">Информация</string>
+    <string name="reasons">Причины</string>
+    <string name="classification">Классификация</string>
+    <string name="symptoms">Симптомы</string>
+    <string name="diagnostics">Диагностика</string>
+    <string name="category">Раздел</string>
+</resources>
