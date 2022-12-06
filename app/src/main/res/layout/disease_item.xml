@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/disease"
+            android:textColor="@color/primary_color_variant"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView

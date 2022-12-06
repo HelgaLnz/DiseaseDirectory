@@ -13,6 +13,7 @@
     <string name="disease_types">Типы заболевания</string>
     <string name="brain">Головной мозг</string>
     <string name="types">Разделы</string>
+    <string name="about">О программе</string>
     <string name="title_text_view">Справочник заболеваний</string>
     <string name="dark_theme">Темная тема</string>
     <string name="info">Информация</string>
@@ -21,4 +22,8 @@
     <string name="symptoms">Симптомы</string>
     <string name="diagnostics">Диагностика</string>
     <string name="category">Раздел</string>
+    <string name="find">Найти</string>
+    <string name="title_app_name">Приложение:\t\n<b>Справочник заболеваний</b></string>
+    <string name="title_app_about">В справочнике заболеваний вы найдете свежую и актуальную информацию по самым разным заболеваниям человека.</string>
+    <string name="title_app_author">Автор: Ланц Ольга\t\nстудентка МГГТК ВО АГУ группы ИС - 33</string>
 </resources>

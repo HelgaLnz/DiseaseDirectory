@@ -49,4 +49,6 @@ class DiseaseAdapter(dataSet: ArrayList<Disease>, context: Fragment) :
     override fun getItemCount(): Int {
         return diseaseArrayList.size
     }
+
+    fun getItems() = diseaseArrayList
 }
