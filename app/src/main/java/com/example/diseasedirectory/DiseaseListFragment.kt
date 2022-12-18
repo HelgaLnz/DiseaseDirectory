@@ -39,6 +39,11 @@ class DiseaseListFragment : Fragment() {
 
         val category = arguments?.getString(CATEGORY_KEY)
 
+//        diseases =
+//            if(category.isNullOrEmpty()) Singleton.getDiseases(requireActivity().applicationContext, "diseases.json")
+//            else ArrayList(Singleton.getDiseases(requireActivity().applicationContext, "diseases.json").filter {
+//                it.category == category })
+
         diseases =
             if(category.isNullOrEmpty()) Singleton.getDiseases(requireActivity().applicationContext)
             else ArrayList(Singleton.getDiseases(requireActivity().applicationContext).filter {

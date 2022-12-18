@@ -1,10 +1,13 @@
 package com.example.diseasedirectory
 
 import android.os.Bundle
+import android.provider.MediaStore.Images
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import animationutils.AnimationPlayer
+import com.davemorrissey.labs.subscaleview.ImageSource
 import com.example.diseasedirectory.disease.Disease
 import kotlinx.android.synthetic.main.disease_item.*
 import kotlinx.android.synthetic.main.fragment_disease.*
@@ -60,7 +63,12 @@ class DiseaseFragment : Fragment() {
 
         if(imageResource1 == 0)
             ivDisease1.visibility = View.GONE
-        else ivDisease1.setImageResource(imageResource1)
+        else
+        {
+            ivDisease1.setImage(ImageSource.resource(imageResource1))
+            AnimationPlayer.appear(ivDisease1, 1000)
+        }
+
     }
 
     private fun visibilityImage2() {
@@ -69,7 +77,12 @@ class DiseaseFragment : Fragment() {
 
         if(imageResource2 == 0)
             ivDisease2.visibility = View.GONE
-        else ivDisease2.setImageResource(imageResource2)
+        else
+        {
+            ivDisease2.setImage(ImageSource.resource(imageResource2))
+            AnimationPlayer.appear(ivDisease2, 1000)
+        }
+
     }
 
     private fun visibilityReasons() {

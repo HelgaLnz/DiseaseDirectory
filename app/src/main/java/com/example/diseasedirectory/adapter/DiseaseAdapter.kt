@@ -4,16 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diseasedirectory.DiseaseFragment
+import com.example.diseasedirectory.MainActivity
 import com.example.diseasedirectory.R
 import com.example.diseasedirectory.disease.Disease
+import com.google.android.material.internal.ContextUtils.getActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.disease_item.view.*
 
-class DiseaseAdapter(dataSet: ArrayList<Disease>, context: Fragment) :
+class DiseaseAdapter(dataSet: ArrayList<Disease>, private val context: Fragment) :
     RecyclerView.Adapter<DiseaseAdapter.ViewHolder>() {
-
     private val diseaseArrayList: ArrayList<Disease>
     private val fragment: Fragment
     init {
@@ -34,6 +37,7 @@ class DiseaseAdapter(dataSet: ArrayList<Disease>, context: Fragment) :
         holder.itemView.category.text = diseaseArrayList[position].category
 
         holder.itemView.setOnClickListener {
+            (context.requireActivity() as MainActivity).searchView.isVisible = false
             val disease = diseaseArrayList[position]
 
             fragment.parentFragmentManager.beginTransaction()

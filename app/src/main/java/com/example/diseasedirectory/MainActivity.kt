@@ -13,6 +13,8 @@ import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.adapter.DiseaseAdapter
+import com.example.diseasedirectory.dbutils.DbHelper
+import com.example.diseasedirectory.disease.Disease
 import com.example.diseasedirectory.disease.Singleton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_disease_list.*
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_disease_list.view.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var searchView: SearchView
+    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +77,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText.isNullOrEmpty())
-                    navHostFragment.diseaseList.adapter = DiseaseAdapter(ArrayList(Singleton.getDiseases(this@MainActivity)),
+                    navHostFragment.diseaseList.adapter = DiseaseAdapter(ArrayList(Singleton
+                        .getDiseases(this@MainActivity)),
                         navHostFragment.getFragment())
                 else filterRecycler(newText)
 
