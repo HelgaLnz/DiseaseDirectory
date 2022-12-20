@@ -14,6 +14,34 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.DiseaseDirectory.Caveat" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/caveat</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.Lora" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/lora</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.LoraItalic" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/lora_italic</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.Pacifico" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/pacifico</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.Rubik" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/rubik</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.RubikItalic" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/rubik_italic</item>
+    </style>
+
+    <style name="Theme.DiseaseDirectory.SansSerif" parent="Theme.DiseaseDirectory">
+        <item name="fontFamily">@font/sans_serif</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimaryVariant">@color/primary_color_variant</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>

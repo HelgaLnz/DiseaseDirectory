@@ -26,4 +26,6 @@
     <string name="title_app_name">Приложение:\t\n<b>Справочник заболеваний</b></string>
     <string name="title_app_about">В справочнике заболеваний вы найдете свежую и актуальную информацию по самым разным заболеваниям человека.</string>
     <string name="title_app_author">Автор: Ланц Ольга\t\nстудентка МГГТК ВО АГУ группы ИС - 33</string>
+    <string name="font_size">Размер шрифта</string>
+    <string name="font_family">Шрифт</string>
 </resources>

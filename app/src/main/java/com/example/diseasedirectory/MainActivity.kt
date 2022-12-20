@@ -33,11 +33,23 @@ class MainActivity : AppCompatActivity() {
         instantiateToggle()
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.itemHome -> setFragment(DiseaseListFragment(), resources.getString(R.string.app_name))
-                R.id.itemCategories -> setFragment(CategoriesFragment(), resources.getString(R.string.item_categories))
-                R.id.itemSettings -> setFragment(OptionsFragment(), resources.getString(R.string.item_settings))
-                R.id.itemAbout -> setFragment(AboutAppFragment(), resources.getString(R.string.about))
+            when (it.itemId) {
+                R.id.itemHome -> setFragment(
+                    DiseaseListFragment(),
+                    resources.getString(R.string.app_name)
+                )
+                R.id.itemCategories -> setFragment(
+                    CategoriesFragment(),
+                    resources.getString(R.string.item_categories)
+                )
+                R.id.itemSettings -> setFragment(
+                    OptionsFragment(),
+                    resources.getString(R.string.item_settings)
+                )
+                R.id.itemAbout -> setFragment(
+                    AboutAppFragment(),
+                    resources.getString(R.string.about)
+                )
             }
             true
         }
@@ -59,8 +71,10 @@ class MainActivity : AppCompatActivity() {
 
         diseases = ArrayList(diseases.filter { it.title.contains(filterer, ignoreCase = true) })
 
-        navHostFragment.diseaseList.adapter = DiseaseAdapter(ArrayList(diseases),
-            navHostFragment.getFragment())
+        navHostFragment.diseaseList.adapter = DiseaseAdapter(
+            ArrayList(diseases),
+            navHostFragment.getFragment()
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,16 +84,20 @@ class MainActivity : AppCompatActivity() {
         searchView = search?.actionView as SearchView
         searchView.queryHint = getString(R.string.find)
 
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty())
-                    navHostFragment.diseaseList.adapter = DiseaseAdapter(ArrayList(Singleton
-                        .getDiseases(this@MainActivity)),
-                        navHostFragment.getFragment())
+                if (newText.isNullOrEmpty())
+                    navHostFragment.diseaseList.adapter = DiseaseAdapter(
+                        ArrayList(
+                            Singleton
+                                .getDiseases(this@MainActivity)
+                        ),
+                        navHostFragment.getFragment()
+                    )
                 else filterRecycler(newText)
 
                 return true
@@ -90,7 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) return true
+        if (toggle.onOptionsItemSelected(item)) return true
 
         return super.onOptionsItemSelected(item)
     }
@@ -107,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         val index = supportFragmentManager.backStackEntryCount - 1
         val backEntry = supportFragmentManager.getBackStackEntryAt(index)
 
-        if(backEntry.name == DiseaseListFragment::class.java.name) finish()
+        if (backEntry.name == DiseaseListFragment::class.java.name) finish()
         else setFragment(DiseaseListFragment(), resources.getString(R.string.app_name))
     }
 }
