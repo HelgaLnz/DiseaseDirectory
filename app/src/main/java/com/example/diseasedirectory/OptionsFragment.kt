@@ -1,43 +1,36 @@
 package com.example.diseasedirectory
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.content.res.Resources
-import android.graphics.Typeface
-import android.graphics.fonts.Font
-import android.graphics.fonts.FontFamily
-import android.graphics.fonts.FontStyle
 import android.os.Bundle
-import android.text.style.TypefaceSpan
-import android.view.Display.Mode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.graphics.TypefaceCompat
-import androidx.core.graphics.TypefaceCompatApi26Impl
-import androidx.core.graphics.TypefaceCompatUtil
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.example.diseasedirectory.enum.FontName
+import com.example.diseasedirectory.enum.FontFamilyName
+import com.example.diseasedirectory.typefaceutils.Typeface
 import kotlinx.android.synthetic.main.fragment_options.*
 
 class OptionsFragment : Fragment() {
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+
+    lateinit var editorFontFamily: SharedPreferences.Editor
+    lateinit var preferences: SharedPreferences
 
     companion object{
         private const val SHARED_PREF_NAME = "name"
         private const val KEY_FONT_FAMILY = "FontFamily"
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_options, container, false)
     }
 
@@ -54,39 +47,70 @@ class OptionsFragment : Fragment() {
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-        editor = sharedPreferences.edit()
+        preferences = requireContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        editorFontFamily = preferences.edit()
+
         changeFontFamily()
+        changeFonSize()
+    }
+
+    private fun changeFonSize() {
+        seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textFontSize.text = resources.getText(R.string.font_size_number).toString().plus(progress.toString())
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
     }
 
     private fun changeFontFamily(){
         val fontList: List<String> = listOf("Выберите шрифт", "Sans-Sarif", "Caveat", "Lora", "Lora-Italic",
-            "Pacifico", "Rubik", "Rubik-Italic")
+            "Pacifico", "Rubik", "Rubik-Italic", "Default")
 
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, fontList)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerFontFamily.adapter = arrayAdapter
 
         spinnerFontFamily.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(position != 0){
-                    editor.putInt(KEY_FONT_FAMILY, position)
-                    editor.apply()
-                }
-                var fontFamilyInt = sharedPreferences.getInt(KEY_FONT_FAMILY, 0)
-                spinnerFontFamily.setSelection(fontFamilyInt)
 
-                when(fontFamilyInt){
-                    1 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Sans_Serif)
-                    2 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Caveat)
-                    3 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Lora)
-                    4 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Lora_Italic)
-                    5 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Pacifico)
-                    6 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Rubik)
-                    7 -> com.example.diseasedirectory.font.Font.setFontApp(requireContext(), FontName.Rubik_Italic)
+                    Typeface.setFontFamilyTextView(requireContext(), position, tvFontFamily)
+                    editorFontFamily.putInt(KEY_FONT_FAMILY, position)
+                    editorFontFamily.apply()
+
+                }
+                    val fontFamilyInt = preferences.getInt(KEY_FONT_FAMILY, 0)
+                    spinnerFontFamily.setSelection(fontFamilyInt)
+
+                buttonSetOptions.setOnClickListener {
+                    setFontFamily(fontFamilyInt, requireContext())
+                    startActivity(Intent.makeRestartActivityTask(activity?.intent?.component));
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    fun setFontFamily(fontFamilyInt: Int, context: Context){
+        when(fontFamilyInt){
+            1 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(1))
+            2 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(2))
+            3 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(3))
+            4 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(4))
+            5 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(5))
+            6 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(6))
+            7 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(7))
+            8 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(8))
         }
     }
 }

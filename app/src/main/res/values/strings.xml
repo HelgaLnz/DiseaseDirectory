@@ -28,4 +28,6 @@
     <string name="title_app_author">Автор: Ланц Ольга\t\nстудентка МГГТК ВО АГУ группы ИС - 33</string>
     <string name="font_size">Размер шрифта</string>
     <string name="font_family">Шрифт</string>
+    <string name="set_button_text">Установить</string>
+    <string name="font_size_number">Размер:</string>
 </resources>

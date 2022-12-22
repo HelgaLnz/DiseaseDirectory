@@ -1,23 +1,17 @@
 package com.example.diseasedirectory
 
-import android.content.Intent
-import android.graphics.BitmapFactory.Options
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.adapter.DiseaseAdapter
-import com.example.diseasedirectory.dbutils.DbHelper
-import com.example.diseasedirectory.disease.Disease
 import com.example.diseasedirectory.disease.Singleton
+import com.example.diseasedirectory.typefaceutils.Typeface
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_disease_list.*
 import kotlinx.android.synthetic.main.fragment_disease_list.view.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val typeface = Typeface.initialSharedPreferences(this).getString(Typeface.KEY_FONT_FAMILY_STRING, "NoFontFamily")
+        Typeface.setFontFamilyApp(this, Typeface.getFontFamily(typeface!!))
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
