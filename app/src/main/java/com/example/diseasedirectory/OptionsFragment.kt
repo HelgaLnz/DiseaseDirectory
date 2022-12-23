@@ -4,7 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.content.res.Resources.Theme
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +16,19 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.enum.FontFamilyName
 import com.example.diseasedirectory.typefaceutils.Typeface
 import kotlinx.android.synthetic.main.fragment_options.*
+import java.util.Locale
 
 class OptionsFragment : Fragment() {
 
     lateinit var editorFontFamily: SharedPreferences.Editor
     lateinit var preferences: SharedPreferences
+
 
     companion object{
         private const val SHARED_PREF_NAME = "name"
@@ -57,18 +64,39 @@ class OptionsFragment : Fragment() {
     private fun changeFonSize() {
         seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                textFontSize.text = resources.getText(R.string.font_size_number).toString().plus(progress.toString())
+                textFontSize.text = getCoefFonSizeString(progress)
+                resources.configuration.fontScale = getCoefFonSize(progress)
+                textFontFamily.textSize = setFontSize(progress)
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun setFontSize(progress: Int): Float{
+        return when(progress){
+            0 -> (0.67 * 18).toFloat()
+            1 -> (1 * 18).toFloat()
+            2 -> (1.24 * 18).toFloat()
+            else -> (1 * 18).toFloat()
+        }
+    }
+    private fun getCoefFonSize(progress: Int): Float{
+        return when(progress){
+            0 -> 0.67.toFloat()
+            1 -> 1.toFloat()
+            2 -> 1.24.toFloat()
+            else -> 1.toFloat()
+        }
+    }
+
+    private fun getCoefFonSizeString(progress: Int): String{
+        return when(progress){
+            0 -> "small"
+            1 -> "default"
+            2 -> "large"
+            else -> "small"
+        }
     }
 
     private fun changeFontFamily(){
@@ -94,6 +122,7 @@ class OptionsFragment : Fragment() {
 
                 buttonSetOptions.setOnClickListener {
                     setFontFamily(fontFamilyInt, requireContext())
+                    resources.updateConfiguration(resources.configuration, resources.displayMetrics)
                     startActivity(Intent.makeRestartActivityTask(activity?.intent?.component));
                 }
             }
