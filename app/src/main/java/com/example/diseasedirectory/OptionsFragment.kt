@@ -4,35 +4,31 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.content.res.Resources
-import android.content.res.Resources.Theme
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.enum.FontFamilyName
+import com.example.diseasedirectory.enum.FontSizeEnum
+import com.example.diseasedirectory.textsizeutils.FontSize
 import com.example.diseasedirectory.typefaceutils.Typeface
 import kotlinx.android.synthetic.main.fragment_options.*
-import java.util.Locale
 
 class OptionsFragment : Fragment() {
 
-    lateinit var editorFontFamily: SharedPreferences.Editor
+    lateinit var editorFont: SharedPreferences.Editor
     lateinit var preferences: SharedPreferences
 
-
     companion object{
-        private const val SHARED_PREF_NAME = "name"
+        private const val SHARED_PREF_NAME = "Name"
         private const val KEY_FONT_FAMILY = "FontFamily"
+        private const val KEY_FONT_SIZE = "FontSize"
     }
 
     override fun onCreateView(
@@ -55,91 +51,70 @@ class OptionsFragment : Fragment() {
         }
 
         preferences = requireContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-        editorFontFamily = preferences.edit()
+        editorFont = preferences.edit()
 
         changeFontFamily()
         changeFonSize()
     }
 
     private fun changeFonSize() {
-        seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                textFontSize.text = getCoefFonSizeString(progress)
-                resources.configuration.fontScale = getCoefFonSize(progress)
-                textFontFamily.textSize = setFontSize(progress)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-    }
+        try {
+            val fontSizeInt = preferences.getInt(KEY_FONT_SIZE, 1)
+            textFontSize.text = FontSizeEnum.getFontSizeName(fontSizeInt)
+            seekBarFontSize.progress = fontSizeInt
 
-    private fun setFontSize(progress: Int): Float{
-        return when(progress){
-            0 -> (0.67 * 18).toFloat()
-            1 -> (1 * 18).toFloat()
-            2 -> (1.24 * 18).toFloat()
-            else -> (1 * 18).toFloat()
-        }
-    }
-    private fun getCoefFonSize(progress: Int): Float{
-        return when(progress){
-            0 -> 0.67.toFloat()
-            1 -> 1.toFloat()
-            2 -> 1.24.toFloat()
-            else -> 1.toFloat()
-        }
-    }
+            seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    textFontSize.text = FontSizeEnum.getFontSizeName(progress)
 
-    private fun getCoefFonSizeString(progress: Int): String{
-        return when(progress){
-            0 -> "small"
-            1 -> "default"
-            2 -> "large"
-            else -> "small"
+                    FontSize.setFontSizeTextView(progress, textFontSize)
+
+                    editorFont.putInt(KEY_FONT_SIZE,progress).apply()
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }catch (e: Exception){
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun changeFontFamily(){
-        val fontList: List<String> = listOf("Выберите шрифт", "Sans-Sarif", "Caveat", "Lora", "Lora-Italic",
-            "Pacifico", "Rubik", "Rubik-Italic", "Default")
+        try {
+            val fontList: List<String> = listOf("Выберите шрифт", "Sans-Sarif", "Caveat", "Lora", "Lora-Italic",
+                "Pacifico", "Rubik", "Rubik-Italic", "Default")
 
-        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, fontList)
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerFontFamily.adapter = arrayAdapter
+            val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, fontList)
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerFontFamily.adapter = arrayAdapter
 
-        spinnerFontFamily.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinnerFontFamily.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if(position != 0){
-
-                    Typeface.setFontFamilyTextView(requireContext(), position, tvFontFamily)
-                    editorFontFamily.putInt(KEY_FONT_FAMILY, position)
-                    editorFontFamily.apply()
-
-                }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if(position != 0){
+                        Typeface.setFontFamilyTextView(requireContext(), position, tvFontFamily)
+                        editorFont.putInt(KEY_FONT_FAMILY, position).apply()
+                    }
                     val fontFamilyInt = preferences.getInt(KEY_FONT_FAMILY, 0)
                     spinnerFontFamily.setSelection(fontFamilyInt)
 
-                buttonSetOptions.setOnClickListener {
-                    setFontFamily(fontFamilyInt, requireContext())
-                    resources.updateConfiguration(resources.configuration, resources.displayMetrics)
-                    startActivity(Intent.makeRestartActivityTask(activity?.intent?.component));
+                    buttonSetOptions.setOnClickListener {
+                        setFontFamily(fontFamilyInt)
+                        setFontSize()
+                        startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+                    }
                 }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }catch (e: Exception){
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    fun setFontFamily(fontFamilyInt: Int, context: Context){
-        when(fontFamilyInt){
-            1 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(1))
-            2 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(2))
-            3 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(3))
-            4 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(4))
-            5 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(5))
-            6 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(6))
-            7 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(7))
-            8 -> Typeface.setFontFamilyApp(context, Typeface.getFontFamily(8))
-        }
-    }
+    private fun setFontSize(fonSizeInt: Int = preferences.getInt(KEY_FONT_SIZE, 1),
+                context: Context = requireContext()) =
+        FontSize.setFontSizeApp(context, FontSizeEnum.getFontSize(fonSizeInt))
+
+    private fun setFontFamily(fontFamilyInt: Int, context: Context = requireContext()) =
+        Typeface.setFontFamilyApp(context, FontFamilyName.getFontFamily(fontFamilyInt))
 }

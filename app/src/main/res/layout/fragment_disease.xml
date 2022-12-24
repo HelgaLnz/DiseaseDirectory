@@ -76,13 +76,10 @@
             android:layout_width="34dp"
             android:layout_height="38dp"
             android:layout_marginBottom="20dp"
+            android:alpha="0.7"
+            style="@style/ImageButtonStyle"
             android:backgroundTint="@color/primary_color_variant"
             android:src="@drawable/ic_baseline_question" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Для увеличения картинки " />
 
         <TextView
             android:id="@+id/tvReasonsTitle"

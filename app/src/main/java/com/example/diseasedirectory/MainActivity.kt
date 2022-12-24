@@ -10,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.adapter.DiseaseAdapter
 import com.example.diseasedirectory.disease.Singleton
+import com.example.diseasedirectory.enum.FontFamilyName
+import com.example.diseasedirectory.textsizeutils.FontSize
 import com.example.diseasedirectory.typefaceutils.Typeface
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_disease_list.view.*
@@ -20,7 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val typeface = Typeface.initialSharedPreferences(this).getString(Typeface.KEY_FONT_FAMILY_STRING, "NoFontFamily")
-        Typeface.setFontFamilyApp(this, Typeface.getFontFamily(typeface!!))
+        Typeface.setFontFamilyApp(this, FontFamilyName.getFontFamily(typeface!!))
+        val textSize = FontSize.initialSharedPreferences(this).getString(FontSize.KEY_FONT_SIZE_STRING, "Default")
+        FontSize.setFontSizeApp(this, FontSize.getTextSize(textSize!!))
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
