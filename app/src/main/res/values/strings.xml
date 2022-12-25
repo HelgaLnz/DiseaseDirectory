@@ -30,4 +30,8 @@
     <string name="font_family">Шрифт</string>
     <string name="set_button_text">Установить</string>
     <string name="font_size_number">Размер:    </string>
+    <string name="text_ok"><b>OK</b></string>
+    <string name="zoom_text">Для увеличения масштаба изображения\nразведите пальцы в областе картинки в стороны.</string>
+    <string name="reduction_text">Для уменьшения масштаба изображения сведите\nпальцы в областе картинки вместе.</string>
+
 </resources>

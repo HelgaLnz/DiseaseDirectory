@@ -13,11 +13,13 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.diseasedirectory.enum.FontFamilyName
 import com.example.diseasedirectory.enum.FontSizeEnum
 import com.example.diseasedirectory.textsizeutils.FontSize
 import com.example.diseasedirectory.typefaceutils.Typeface
+import kotlinx.android.synthetic.main.fragment_disease.*
 import kotlinx.android.synthetic.main.fragment_options.*
 
 class OptionsFragment : Fragment() {
@@ -39,7 +41,6 @@ class OptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         activity?.title = getString(R.string.item_settings)
 
         switchDarkTheme.isChecked = context?.resources?.configuration?.uiMode
@@ -55,6 +56,7 @@ class OptionsFragment : Fragment() {
 
         changeFontFamily()
         changeFonSize()
+
     }
 
     private fun changeFonSize() {

@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val typeface = Typeface.initialSharedPreferences(this).getString(Typeface.KEY_FONT_FAMILY_STRING, "NoFontFamily")
         Typeface.setFontFamilyApp(this, FontFamilyName.getFontFamily(typeface!!))
+
         val textSize = FontSize.initialSharedPreferences(this).getString(FontSize.KEY_FONT_SIZE_STRING, "Default")
         FontSize.setFontSizeApp(this, FontSize.getTextSize(textSize!!))
 

@@ -1,16 +1,22 @@
 package com.example.diseasedirectory
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.MediaStore.Images
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.transaction
 import animationutils.AnimationPlayer
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.example.diseasedirectory.disease.Disease
 import kotlinx.android.synthetic.main.disease_item.*
 import kotlinx.android.synthetic.main.fragment_disease.*
+import kotlinx.android.synthetic.main.fragment_hint_dialog.*
+import kotlinx.android.synthetic.main.fragment_hint_dialog.view.*
 
 
 class DiseaseFragment : Fragment() {
@@ -44,7 +50,13 @@ class DiseaseFragment : Fragment() {
 
         viewVisibility()
 
-        super.onViewCreated(view, savedInstanceState)
+       ibHint.setOnClickListener {
+           AlertDialog.Builder(requireContext())
+               .setView(R.layout.fragment_hint_dialog)
+               .setNegativeButton(R.string.text_ok, DialogInterface.OnClickListener(){
+                   dialog, _ -> dialog.dismiss()
+               }).show()
+       }
     }
 
     private fun viewVisibility() {
